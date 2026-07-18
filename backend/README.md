@@ -223,12 +223,12 @@ Create a `.env` file inside the backend directory.
 ```env
 PORT=5000
 
-MONGODB_URI=mongodb://prabhatkumararya9_db_user:Prabhat123@ac-61e17md-shard-00-00.fbytvqe.mongodb.net:27017,ac-61e17md-shard-00-01.fbytvqe.mongodb.net:27017,ac-61e17md-shard-00-02.fbytvqe.mongodb.net:27017/?ssl=true&replicaSet=atlas-u0fq91-shard-0&authSource=admin&appName=Cluster0;
+MONGODB_URI=MONGODB_URI=your_mongodb_connection_string
 
 EMAIL_USER=prabhatkumararya9@gmail.com
-EMAIL_PASS=xnulcwlufsbsokem
+EMAIL_PASS=********
 
-JWT_SECRET=resume_backend_secret_2026
+JWT_SECRET=***********
 JWT_EXPIRE=7d
 ```
 
