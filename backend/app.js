@@ -7,14 +7,29 @@ import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
-// Middleware
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
-}));
+// Allowed Frontend Origins
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://your-frontend-name.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow Postman/server-to-server requests
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
 
 // Health Check
@@ -37,6 +52,7 @@ app.use((req, res) => {
   });
 });
 
+// Global Error Handler
 app.use(errorHandler);
 
 export default app;

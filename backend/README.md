@@ -159,7 +159,7 @@ backend/
 | GET | `/api/contact` | Get All Messages |
 | DELETE | `/api/contact/:id` | Delete Message |
 | PATCH | `/api/contact/:id/read` | Mark Message as Read |
-| POST | `/api/admin/login` | Admin Login |
+| POST | `/api/auth/login` | Admin Login |
 
 ---
 

@@ -38,6 +38,7 @@ resume-website-2.0/
 │   ├── app.js
 │   ├── server.js
 │   ├── package.json
+│   ├── vercel.json
 │   ├── .gitignore
 │   └── README.md
 │
