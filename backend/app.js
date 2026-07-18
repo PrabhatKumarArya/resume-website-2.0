@@ -10,7 +10,7 @@ const app = express();
 // Allowed Frontend Origins
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://your-frontend-name.vercel.app",
+  process.env.FRONTEND_URL,
 ];
 
 app.use(
