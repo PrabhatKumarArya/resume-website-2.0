@@ -223,7 +223,7 @@ Create a `.env` file inside the backend directory.
 ```env
 PORT=5000
 
-MONGODB_URI=MONGODB_URI=your_mongodb_connection_string
+MONGODB_URI=your_mongodb_connection_string
 
 EMAIL_USER=prabhatkumararya9@gmail.com
 EMAIL_PASS=********
