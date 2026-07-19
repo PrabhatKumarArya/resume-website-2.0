@@ -214,7 +214,7 @@ export const createContact = asyncHandler(async (req, res) => {
                 text-decoration:none;
                 border-radius:6px;
                 font-weight:bold;
-                ">
+                " download>
                 📄 Download Resume
                 </a>
 
