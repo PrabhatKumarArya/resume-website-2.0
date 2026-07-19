@@ -174,6 +174,7 @@ export const createContact = asyncHandler(async (req, res) => {
                 margin-right:10px;
                 font-weight:bold;
                 mb-2;
+                pb-2;
                 ">
                 GitHub
                 </a>
@@ -190,6 +191,7 @@ export const createContact = asyncHandler(async (req, res) => {
                 margin-right:10px;
                 font-weight:bold;
                 mb-2;
+                pb-2;
                 ">
                 LinkedIn
                 </a>
@@ -206,6 +208,7 @@ export const createContact = asyncHandler(async (req, res) => {
                 margin-right:10px;
                 font-weight:bold;
                 mb-2;
+                pb-2;
                 ">
                 Portfolio
                 </a>
@@ -220,6 +223,9 @@ export const createContact = asyncHandler(async (req, res) => {
                 text-decoration:none;
                 border-radius:6px;
                 font-weight:bold;
+                mt-2;
+                mb-2;
+                pb-2;
                 ">
                 📄 Download Resume
                 </a>
