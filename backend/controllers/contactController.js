@@ -41,6 +41,7 @@ export const createContact = asyncHandler(async (req, res) => {
     subject: `📩 New Portfolio Contact: ${subject}`,
     html: `...`
   });
+  console.log("✅ Owner email sent");
 
   console.log("📤 Sending visitor email...");
 
@@ -53,7 +54,7 @@ export const createContact = asyncHandler(async (req, res) => {
 
   await Promise.all([ownerMail, visitorMail]);
 
-  console.log("✅ Both emails sent successfully.");
+  console.log("✅ Visitor email sent");
 
 } catch (err) {
 
