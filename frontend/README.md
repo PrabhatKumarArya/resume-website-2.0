@@ -1,4 +1,4 @@
-# ⚛️ Portfolio Frontend
+# ⚛️ Resume Frontend
 
 A modern, responsive, and interactive **React + Vite** frontend for my personal portfolio website. This application showcases my skills, projects, education, and experience while providing an elegant user interface for visitors to connect with me. It also includes an Admin Login interface for accessing the portfolio management dashboard.
 
