@@ -62,16 +62,181 @@ export const createContact = asyncHandler(async (req, res) => {
           },
           subject: `📩 New Portfolio Contact: ${subject}`,
           htmlContent: `
-              <h2>📩 New Portfolio Contact</h2>
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body{
+                margin:0;
+                padding:40px;
+                background:#f5f7fb;
+                font-family:Arial,sans-serif;
+            }
+            .container{
+                max-width:650px;
+                margin:auto;
+                background:#fff;
+                border-radius:10px;
+                overflow:hidden;
+                box-shadow:0 10px 30px rgba(0,0,0,.1);
+            }
+            .header{
+                background:#111827;
+                color:#fff;
+                text-align:center;
+                padding:35px;
+            }
+            .content{
+                padding:40px;
+            }
+            .subject{
+                background:#f3f4f6;
+                border-left:5px solid #06b6d4;
+                padding:15px;
+                margin:20px 0;
+                font-weight:bold;
+            }
+            .button{
+                display:inline-block;
+                padding:12px 22px;
+                color:white !important;
+                text-decoration:none;
+                border-radius:6px;
+                margin-right:10px;
+            }
+            .github{background:#24292f;}
+            .linkedin{background:#0077b5;}
+            .portfolio{background:#06b6d4;}
+            .footer{
+                background:#111827;
+                color:white;
+                text-align:center;
+                padding:18px;
+            }
+          </style>
+        </head>
 
-              <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Subject:</strong> ${subject}</p>
+        <body>
+
+          <div class="container">
+
+            <div class="header">
+              <h1>Thank You!</h1>
+              <p>Your message has been received successfully.</p>
+            </div>
+
+            <div class="content">
+
+              <h2>Hello ${name},</h2>
+
+              <p>
+              Thank you for contacting me through my portfolio website.
+              </p>
+
+              <p>I have successfully received your message regarding:</p>
+
+              <div class="subject">
+              ${subject}
+              </div>
+
+              <p>
+              I appreciate your interest and will review your message shortly.
+              </p>
+
+              <p>
+              I usually respond within <b>24–48 hours.</b>
+              </p>
 
               <hr>
 
-              <p>${message}</p>
-            `,
+              <p>
+              Best Regards,
+              </p>
+
+              <h3>Prabhat Kumar Arya</h3>
+
+              <p>Full Stack Developer</p>
+
+              <br>
+
+              <div style="margin-top:30px;">
+
+                <a
+                href="https://github.com/PrabhatKumarArya"
+                style="
+                display:inline-block;
+                padding:12px 22px;
+                background:#24292f;
+                color:#fff;
+                text-decoration:none;
+                border-radius:6px;
+                margin-right:10px;
+                font-weight:bold;
+                ">
+                GitHub
+                </a>
+
+                <a
+                href="https://linkedin.com/in/prabhat-kumar-arya-883a79324"
+                style="
+                display:inline-block;
+                padding:12px 22px;
+                background:#0077b5;
+                color:#fff;
+                text-decoration:none;
+                border-radius:6px;
+                margin-right:10px;
+                font-weight:bold;
+                ">
+                LinkedIn
+                </a>
+
+                <a
+                href="${process.env.PORTFOLIO_URL}"
+                style="
+                display:inline-block;
+                padding:12px 22px;
+                background:#06b6d4;
+                color:#fff;
+                text-decoration:none;
+                border-radius:6px;
+                margin-right:10px;
+                font-weight:bold;
+                ">
+                Portfolio
+                </a>
+
+                <a
+                href="${process.env.PORTFOLIO_URL}/My_Resume.pdf"
+                download
+                style="
+                display:inline-block;
+                padding:12px 22px;
+                background:#16a34a;
+                color:#fff;
+                text-decoration:none;
+                border-radius:6px;
+                font-weight:bold;
+                ">
+                📄 Download Resume
+                </a>
+
+              </div>
+
+            </div>
+
+            <div class="footer">
+
+              © 2026 Prabhat Kumar Arya
+
+            </div>
+
+          </div>
+
+        </body>
+      </html>
+      `
     });
 
     // await getTransporter.sendTransacEmail({
