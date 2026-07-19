@@ -205,7 +205,7 @@ export const createContact = asyncHandler(async (req, res) => {
                 </a>
 
                 <a
-                href="https://your-portfolio-domain.vercel.app/My_Resume.pdf"
+                href="https://my-portfolio-website-5-1.vercel.app/assets/My_Resume.pdf"
                 style="
                 display:inline-block;
                 padding:12px 22px;
