@@ -58,7 +58,6 @@ export const skillsData = [
     category: "Programming",
     skills: [
       { name: "C++", icon: SiCplusplus },
-      { name: "Java", icon: FaJava },
       { name: "Python", icon: FaPython },
     ],
   },
