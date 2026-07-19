@@ -1,15 +1,20 @@
 import Contact from "../models/Contact.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import getTransporter from "../config/mail.js";
+// import path from "path";
+// import { fileURLToPath } from "url";
 
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 /**
- * @desc Save Contact Message
- * @route POST /api/contact
+ * @desc    Save a new contact message
+ * @route   POST /api/contact
+ * @access  Public
  */
 export const createContact = asyncHandler(async (req, res) => {
+
   const { name, email, subject, message } = req.body;
 
-  // Save to MongoDB
   const contact = await Contact.create({
     name,
     email,
@@ -18,89 +23,62 @@ export const createContact = asyncHandler(async (req, res) => {
     status: "new",
   });
 
-  // Send response immediately
   res.status(201).json({
     success: true,
     message: "Message sent successfully.",
     data: contact,
   });
 
-  // Send email in background
-  try {
-    console.log("📤 Sending owner email...");
+// ==========================
+// Send Emails
+// ==========================
 
-    const info = await getTransporter.sendMail({
-      from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
-      sender: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
+// Owner Email
+try {
+  console.log("📤 Sending owner email...");
 
-      // Your personal email
-      to: process.env.OWNER_EMAIL,
+  const ownerInfo = await getTransporter.sendMail({
+    from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER,
+    replyTo: email,
+    subject: `📩 New Portfolio Contact: ${subject}`,
+    html: `
+      <h2>📩 New Portfolio Contact</h2>
 
-      replyTo: email,
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
 
-      subject: `📩 New Portfolio Contact: ${subject}`,
+      <hr>
 
-      html: `
-        <div style="font-family:Arial,sans-serif;padding:20px">
-          <h2>📩 New Portfolio Contact</h2>
+      <p>${message}</p>
+    `,
+  });
 
-          <table cellpadding="8">
-            <tr>
-              <td><strong>Name</strong></td>
-              <td>${name}</td>
-            </tr>
+  console.log("✅ Owner email sent");
+  console.log(ownerInfo);
 
-            <tr>
-              <td><strong>Email</strong></td>
-              <td>${email}</td>
-            </tr>
-
-            <tr>
-              <td><strong>Subject</strong></td>
-              <td>${subject}</td>
-            </tr>
-          </table>
-
-          <hr>
-
-          <h3>Message</h3>
-
-          <p>${message}</p>
-
-          <br>
-
-          <a
-            href="mailto:${email}"
-            style="
-              background:#2563eb;
-              color:white;
-              padding:12px 18px;
-              border-radius:8px;
-              text-decoration:none;
-            "
-          >
-            Reply to ${name}
-          </a>
-        </div>
-      `,
-    });
-
-    console.log("✅ Owner email sent");
-    console.log(info);
-
-  } catch (err) {
-    console.error("❌ Owner email failed");
-    console.error(err);
-  }
+} catch (err) {
+  console.error("❌ Owner email failed:", err);
+}
 });
 
 /**
- * @desc Get Contacts
+ * @desc    Get all contact messages
+ * @route   GET /api/contact
+ * @access  Admin
  */
 export const getContacts = asyncHandler(async (req, res) => {
+
   await Contact.updateMany(
-    { status: { $exists: false } },
-    { $set: { status: "new" } }
+    {
+      status: { $exists: false }
+    },
+    {
+      $set: {
+        status: "new"
+      }
+    }
   );
 
   const contacts = await Contact.find().sort({
@@ -112,12 +90,16 @@ export const getContacts = asyncHandler(async (req, res) => {
     count: contacts.length,
     data: contacts,
   });
+
 });
+
 
 /**
  * @desc Delete Contact
+ * @route DELETE /api/contact/:id
  */
 export const deleteContact = asyncHandler(async (req, res) => {
+
   const contact = await Contact.findById(req.params.id);
 
   if (!contact) {
@@ -131,14 +113,18 @@ export const deleteContact = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: "Contact deleted successfully",
+    message: "Contact message deleted successfully",
   });
+
 });
 
+
 /**
- * @desc Mark as Read
+ * @desc Mark Message as Read
+ * @route PATCH /api/contact/:id/read
  */
 export const markAsRead = asyncHandler(async (req, res) => {
+
   const contact = await Contact.findById(req.params.id);
 
   if (!contact) {
@@ -157,4 +143,5 @@ export const markAsRead = asyncHandler(async (req, res) => {
     message: "Message marked as read",
     data: contact,
   });
+
 });
