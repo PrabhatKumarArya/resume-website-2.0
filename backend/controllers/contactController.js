@@ -29,40 +29,39 @@ export const createContact = asyncHandler(async (req, res) => {
     data: contact,
   });
 
-  // Send emails asynchronously
- try {
+// ==========================
+// Send Emails
+// ==========================
 
+// Owner Email
+try {
   console.log("📤 Sending owner email...");
 
-  const ownerMail = getTransporter.sendMail({
+  const ownerInfo = await getTransporter.sendMail({
     from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
     replyTo: email,
     subject: `📩 New Portfolio Contact: ${subject}`,
-    html: `...`
+    html: `
+      <h2>📩 New Portfolio Contact</h2>
+
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+
+      <hr>
+
+      <p>${message}</p>
+    `,
   });
+
   console.log("✅ Owner email sent");
-
-  console.log("📤 Sending visitor email...");
-
-  const visitorMail = getTransporter.sendMail({
-    from: `"Prabhat Kumar Arya" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "Thank you for contacting me!",
-    html: `...`
-  });
-
-  await Promise.all([ownerMail, visitorMail]);
-
-  console.log("✅ Visitor email sent");
+  console.log(ownerInfo);
 
 } catch (err) {
-
-  console.error("❌ Mail Error:", err);
-
+  console.error("❌ Owner email failed:", err);
 }
 });
-
 
 /**
  * @desc    Get all contact messages
