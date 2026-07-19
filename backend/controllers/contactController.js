@@ -208,8 +208,7 @@ export const createContact = asyncHandler(async (req, res) => {
                 </a>
 
                 <a
-                href="${process.env.PORTFOLIO_URL}/My_Resume.pdf"
-                download
+                href="https://your-portfolio-domain.vercel.app/My_Resume.pdf"
                 style="
                 display:inline-block;
                 padding:12px 22px;
