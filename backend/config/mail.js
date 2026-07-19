@@ -11,4 +11,12 @@ const getTransporter = nodemailer.createTransport({
   },
 });
 
+getTransporter.verify((error, success) => {
+  if (error) {
+    console.error("Transporter Error:", error);
+  } else {
+    console.log("Mail server is ready.");
+  }
+});
+
 export default getTransporter;
