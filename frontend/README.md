@@ -225,39 +225,39 @@ Checks code quality and linting issues.
 
 # 📸 Screenshots
 
-## Home Page
+## 🏠 Home
 
-*(./src/assets/images/home.png)*
-
----
-
-## About Section
-
-*(Add Screenshot)*
+![Home](./screenshots/home.png)
 
 ---
 
-## Projects
+## 👤 About
 
-*(Add Screenshot)*
-
----
-
-## Contact Section
-
-*(Add Screenshot)*
+![About](./screenshots/about.png)
 
 ---
 
-## Admin Login
+## 🚀 Projects
 
-*(Add Screenshot)*
+![Projects](./screenshots/projects.png)
 
 ---
 
-## Admin Dashboard
+## 📬 Contact
 
-*(Add Screenshot)*
+![Contact](./screenshots/contact.png)
+
+---
+
+## 🔐 Admin Login
+
+![Admin Login](./screenshots/admin-login.png)
+
+---
+
+## 📊 Admin Dashboard
+
+![Admin Dashboard](./screenshots/dashboard.png)
 
 ---
 
