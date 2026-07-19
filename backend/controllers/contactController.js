@@ -31,212 +31,168 @@ export const createContact = asyncHandler(async (req, res) => {
 
   // Send emails asynchronously
   try {
-    await Promise.all ([
-        await getTransporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER,
-        subject: `📩 New Portfolio Contact: ${subject}`,
-        html: `
-          <h2>📩 New Portfolio Contact</h2>
 
-          <table>
-          <tr><td><strong>Name</strong></td><td>${name}</td></tr>
-          <tr><td><strong>Email</strong></td><td>${email}</td></tr>
-          <tr><td><strong>Subject</strong></td><td>${subject}</td></tr>
-          </table>
+  await Promise.all([
 
-          <hr>
+    // ==========================
+    // Email to Portfolio Owner
+    // ==========================
+    getTransporter.sendMail({
 
-          <p>${message}</p>
-        `,
-        }),
-        await getTransporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER,
-        replyTo: email,
-        subject: `📩 ${subject}`,
-        html: `
-          <h2>Hello ${name},</h2>
+      from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      replyTo: email,
+      subject: `📩 New Portfolio Contact: ${subject}`,
 
-          <p>
-            Thank you for contacting me through my portfolio website.
-          </p>
+      html: `
+        <h2>📩 New Portfolio Contact</h2>
 
-          <p>
-            I have successfully received your message.
-          </p>
+        <table style="border-collapse:collapse;width:100%;">
+          <tr>
+            <td><strong>Name</strong></td>
+            <td>${name}</td>
+          </tr>
 
-          <p>
-            I usually reply within <strong>24–48 hours.</strong>
-          </p>
+          <tr>
+            <td><strong>Email</strong></td>
+            <td>${email}</td>
+          </tr>
 
-          <br>
+          <tr>
+            <td><strong>Subject</strong></td>
+            <td>${subject}</td>
+          </tr>
+        </table>
 
-          <p>
-            Regards,<br>
-            <strong>Prabhat Kumar Arya</strong>
-          </p>
+        <hr>
 
-          <p>
-            <a href="${process.env.PORTFOLIO_URL}">
-              Visit Portfolio
-            </a>
-          </p>
-          <p>
-            <a
-              href="${process.env.RESUME_URL}"
-              style="
-                background:#06b6d4;
-                color:white;
-                padding:12px 20px;
-                text-decoration:none;
-                border-radius:8px;
-                display:inline-block;
-              "
-            >
-              Download My Resume
-            </a>
-          </p>
+        <h3>Message</h3>
 
-          <hr style="margin:35px 0;border:none;border-top:1px solid #e5e7eb;">
+        <p>${message}</p>
+
+        <br>
+
+        <a
+          href="mailto:${email}"
+          style="
+            background:#2563eb;
+            color:white;
+            padding:12px 18px;
+            text-decoration:none;
+            border-radius:8px;
+          "
+        >
+          Reply to ${name}
+        </a>
+      `,
+    }),
+
+    // ==========================
+    // Auto Reply to Visitor
+    // ==========================
+    getTransporter.sendMail({
+
+      from: `"Prabhat Kumar Arya" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Thank you for contacting me!",
+
+      html: `
+        <h2>Hello ${name},</h2>
+
+        <p>
+          Thank you for contacting me through my portfolio website.
+        </p>
+
+        <p>
+          I have successfully received your message.
+        </p>
+
+        <p>
+          I usually reply within <strong>24–48 hours.</strong>
+        </p>
+
+        <p>
+          Regards,<br>
+          <strong>Prabhat Kumar Arya</strong>
+        </p>
+
+        <p>
+          <a href="${process.env.PORTFOLIO_URL}">
+            🌐 Visit Portfolio
+          </a>
+        </p>
+
+        <p>
+          <a
+            href="${process.env.RESUME_URL}"
+            style="
+              background:#06b6d4;
+              color:white;
+              padding:12px 20px;
+              text-decoration:none;
+              border-radius:8px;
+              display:inline-block;
+            "
+          >
+            📄 Download Resume
+          </a>
+        </p>
+
+        <hr style="margin:35px 0;">
 
         <div
-            style="
-              text-align:center;
-              background:#0f172a;
-              color:#cbd5e1;
-              padding:30px;
-              border-radius:12px;
-              margin-top:20px;
-            "
-            >
+          style="
+            background:#0f172a;
+            color:#ffffff;
+            padding:30px;
+            border-radius:12px;
+            text-align:center;
+          "
+        >
 
-            <h2
-              style="
-                color:#ffffff;
-                margin:0;
-              "
-            >
-              Prabhat Kumar Arya
-            </h2>
+          <h2 style="margin:0;">
+            Prabhat Kumar Arya
+          </h2>
 
-            <p
-              style="
-                margin:8px 0 20px;
-                color:#94a3b8;
-                font-size:15px;
-              "
-            >
-              Full Stack Developer
-            </p>
+          <p style="color:#94a3b8;">
+            Full Stack Developer
+          </p>
 
-            <div style="margin-bottom:20px;">
+          <p>
+            <a href="mailto:prabhatkumararya9@gmail.com" style="color:#38bdf8;">Email</a> |
+            <a href="https://github.com/PrabhatKumarArya" style="color:#38bdf8;">GitHub</a> |
+            <a href="https://linkedin.com/in/prabhat-kumar-arya-883a79324" style="color:#38bdf8;">LinkedIn</a> |
+            <a href="${process.env.PORTFOLIO_URL}" style="color:#38bdf8;">Portfolio</a>
+          </p>
 
-              <a
-                href="mailto:prabhatkumararya9@gmail.com"
-                style="
-                  color:#38bdf8;
-                  text-decoration:none;
-                  margin:0 10px;
-                "
-              >
-                Email
-              </a>
+          <p style="font-size:13px;color:#94a3b8;">
+            © ${new Date().getFullYear()} Prabhat Kumar Arya. All Rights Reserved.
+          </p>
 
-              |
+        </div>
+      `,
 
-              <a
-                href="https://github.com/PrabhatKumarArya"
-                style="
-                  color:#38bdf8;
-                  text-decoration:none;
-                  margin:0 10px;
-                "
-              >
-                GitHub
-              </a>
+      // Uncomment after testing if you want attachment
+      /*
+      attachments: [
+        {
+          filename: "My_Resume.pdf",
+          path: process.env.RESUME_URL
+        }
+      ]
+      */
 
-              |
+    }),
 
-              <a
-                href="https://linkedin.com/in/prabhat-kumar-arya-883a79324"
-                style="
-                  color:#38bdf8;
-                  text-decoration:none;
-                  margin:0 10px;
-                "
-              >
-                LinkedIn
-              </a>
+  ]);
 
-              |
+  console.log("✅ Emails sent successfully.");
 
-              <a
-                href="${process.env.PORTFOLIO_URL}"
-                style="
-                  color:#38bdf8;
-                  text-decoration:none;
-                  margin:0 10px;
-                "
-              >
-                Portfolio
-              </a>
+} catch (err) {
 
-            </div>
+  console.error("❌ Mail Error:", err);
 
-            <a
-              href="${process.env.RESUME_URL}"
-              style="
-                display:inline-block;
-                background:#06b6d4;
-                color:#ffffff;
-                text-decoration:none;
-                padding:12px 24px;
-                border-radius:8px;
-                font-weight:bold;
-                margin-bottom:20px;
-              "
-            >
-              📄 Download Resume
-            </a>
-
-            <p
-              style="
-                font-size:14px;
-                color:#cbd5e1;
-                margin-top:20px;
-                line-height:1.6;
-              "
-            >
-              Thank you for reaching out.<br>
-              I appreciate your interest and will get back to you as soon as possible.
-            </p>
-
-            <p
-              style="
-                font-size:12px;
-                color:#94a3b8;
-                margin-top:25px;
-              "
-            >
-              © ${new Date().getFullYear()} Prabhat Kumar Arya. All Rights Reserved.
-            </p>
-
-          </div>
-            `,
-        // Keep attachments disabled until email works reliably.
-        // attachments: [
-        //   {
-        //     filename: "My_Resume.pdf",
-        //     path: path.join(__dirname, "../public/My_Resume.pdf"),
-        //   },
-        // ],
-        }),
-        console.log("Emails sent successfully."),
-    ])
-    } catch (err) {
-        console.error("Mail Error:", err);
-    }
+}
 });
 
 
