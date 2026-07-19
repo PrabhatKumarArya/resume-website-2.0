@@ -1,12 +1,15 @@
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+import dns from "dns";
 
 dotenv.config();
 
-const getTransporter = nodemailer.createTransport({
+dns.setDefaultResultOrder("ipv4first");
+
+const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
-  secure: true, // true only for port 465
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -16,12 +19,12 @@ const getTransporter = nodemailer.createTransport({
   socketTimeout: 30000,
 });
 
-getTransporter.verify((error, success) => {
-  if (error) {
-    console.error("Transporter Error:", error);
+transporter.verify((err) => {
+  if (err) {
+    console.error(err);
   } else {
-    console.log("Mail server is ready.");
+    console.log("Mail server ready");
   }
 });
 
-export default getTransporter;
+export default transporter;
