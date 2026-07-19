@@ -1,7 +1,6 @@
 import Contact from "../models/Contact.js";
 import asyncHandler from "../middleware/asyncHandler.js";
-import getTransporter from "../config/mail.js";
-// import path from "path";
+import { sendBrevoEmail } from "../config/mail.js";// import path from "path";
 // import { fileURLToPath } from "url";
 
 // const __filename = fileURLToPath(import.meta.url);
@@ -13,7 +12,11 @@ import getTransporter from "../config/mail.js";
  */
 export const createContact = asyncHandler(async (req, res) => {
 
+  console.log("🔥 Contact API Hit");
+
   const { name, email, subject, message } = req.body;
+
+  console.log("📩 Request Body:", { name, email, subject });
 
   const contact = await Contact.create({
     name,
@@ -23,44 +26,136 @@ export const createContact = asyncHandler(async (req, res) => {
     status: "new",
   });
 
+  console.log("✅ Contact Saved:", contact._id);
+
   res.status(201).json({
     success: true,
     message: "Message sent successfully.",
     data: contact,
   });
 
-// ==========================
-// Send Emails
-// ==========================
+  console.log("📤 Starting Brevo...");
 
-// Owner Email
-try {
-  console.log("📤 Sending owner email...");
+    console.log("BREVO_API_KEY Loaded:", !!process.env.BREVO_API_KEY);
+  console.log(
+    "BREVO_API_KEY Prefix:",
+    process.env.BREVO_API_KEY?.substring(0, 10)
+  );
 
-  const ownerInfo = await getTransporter.sendMail({
-    from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER,
-    replyTo: email,
-    subject: `📩 New Portfolio Contact: ${subject}`,
-    html: `
-      <h2>📩 New Portfolio Contact</h2>
+  try {
+    console.log("📤 Sending Owner Email...");
 
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Subject:</strong> ${subject}</p>
+    const ownerResult = await sendBrevoEmail({
+          sender: {
+            name: process.env.SENDER_NAME,
+            email: process.env.SENDER_EMAIL,
+          },
+          to: [
+            {
+              email: "prabhatkumararya09@gmail.com",
+              name: "Test User",
+            },
+          ],
+          replyTo: {
+            email,
+            name,
+          },
+          subject: `📩 New Portfolio Contact: ${subject}`,
+          htmlContent: `
+              <h2>📩 New Portfolio Contact</h2>
 
-      <hr>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Subject:</strong> ${subject}</p>
 
-      <p>${message}</p>
-    `,
-  });
+              <hr>
 
-  console.log("✅ Owner email sent");
-  console.log(ownerInfo);
+              <p>${message}</p>
+            `,
+    });
 
-} catch (err) {
-  console.error("❌ Owner email failed:", err);
-}
+    // await getTransporter.sendTransacEmail({
+    //   sender: {
+    //     name: process.env.SENDER_NAME,
+    //     email: process.env.SENDER_EMAIL,
+    //   },
+
+    //   to: [
+    //     {
+    //       email: process.env.SENDER_EMAIL,
+    //       name: process.env.SENDER_NAME,
+    //     },
+    //   ],
+
+    //   replyTo: {
+    //     email,
+    //     name,
+    //   },
+
+    //   subject: `📩 New Portfolio Contact: ${subject}`,
+
+    //   htmlContent: `
+    //     <h2>📩 New Portfolio Contact</h2>
+
+    //     <p><strong>Name:</strong> ${name}</p>
+    //     <p><strong>Email:</strong> ${email}</p>
+    //     <p><strong>Subject:</strong> ${subject}</p>
+
+    //     <hr>
+
+    //     <p>${message}</p>
+    //   `,
+    // });
+
+    console.log("Owner Result:", ownerResult);
+
+    console.log("✅ Owner Email Sent");
+
+    console.log("📤 Sending Visitor Email...");
+
+     const visitorResult = await sendBrevoEmail({
+      sender: {
+        name: process.env.SENDER_NAME,
+        email: process.env.SENDER_EMAIL,
+      },
+      to: [
+        {
+          email,
+          name,
+        },
+      ],
+      subject: "Thank you for contacting me!",
+      htmlContent: `
+        <h2>Hello ${name},</h2>
+
+        <p>Thank you for contacting me through my portfolio website.</p>
+
+        <p>Your message has been received successfully.</p>
+
+        <p>I usually reply within <strong>24–48 hours.</strong></p>
+
+        <br>
+
+        <p>
+          Regards,<br>
+          <strong>${process.env.SENDER_NAME}</strong>
+        </p>
+
+        <p>
+          <a href="${process.env.PORTFOLIO_URL}">
+            Visit Portfolio
+          </a>
+        </p>
+      `,
+    });
+
+    console.log("✅ Visitor Email Sent");
+
+    console.log("Visitor Result:", visitorResult);
+
+  } catch (err) {
+    console.error("❌ Brevo Error:", err);
+  }
 });
 
 /**
