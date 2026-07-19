@@ -6,7 +6,7 @@ A modern, responsive, and interactive **React + Vite** frontend for my personal 
 
 # 🚀 Live Demo
 
-**Frontend:** *(Add your Vercel URL here after deployment)*
+**Frontend:** *([https://resume-website-2-0.vercel.app/])*
 
 ---
 
@@ -227,7 +227,7 @@ Checks code quality and linting issues.
 
 ## Home Page
 
-*(Add Screenshot)*
+*(./src/assets/images/home.png)*
 
 ---
 
