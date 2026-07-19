@@ -1,7 +1,11 @@
 import Contact from "../models/Contact.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import getTransporter from "../config/mail.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 /**
  * @desc    Save a new contact message
  * @route   POST /api/contact
@@ -22,173 +26,173 @@ export const createContact = asyncHandler(async (req, res) => {
   // ==========================
   // Email to Portfolio Owner
   // ==========================
-  await getTransporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
-    subject: `📩 New Portfolio Contact: ${subject}`,
-    html: `
-      <h2>New Portfolio Contact</h2>
+  // await getTransporter.sendMail({
+  //   from: process.env.EMAIL_USER,
+  //   to: process.env.EMAIL_USER,
+  //   subject: `📩 New Portfolio Contact: ${subject}`,
+  //   html: `
+  //     <h2>New Portfolio Contact</h2>
 
-      <p><strong>Name:</strong> ${name}</p>
+  //     <p><strong>Name:</strong> ${name}</p>
 
-      <p><strong>Email:</strong> ${email}</p>
+  //     <p><strong>Email:</strong> ${email}</p>
 
-      <p><strong>Subject:</strong> ${subject}</p>
+  //     <p><strong>Subject:</strong> ${subject}</p>
 
-      <hr>
+  //     <hr>
 
-      <p>${message}</p>
-    `,
-  });
+  //     <p>${message}</p>
+  //   `,
+  // });
 
   // ==========================
   // Auto Reply to Visitor
   // ==========================
-  await getTransporter.sendMail({
-    from: `"Prabhat Kumar Arya" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "Thank you for contacting me!",
-    html: `
-      <div style="
-          max-width:650px;
-          margin:auto;
-          font-family:Arial,sans-serif;
-          border:1px solid #e5e5e5;
-          border-radius:12px;
-          overflow:hidden;
-      ">
+  // await getTransporter.sendMail({
+  //   from: `"Prabhat Kumar Arya" <${process.env.EMAIL_USER}>`,
+  //   to: email,
+  //   subject: "Thank you for contacting me!",
+  //   html: `
+  //     <div style="
+  //         max-width:650px;
+  //         margin:auto;
+  //         font-family:Arial,sans-serif;
+  //         border:1px solid #e5e5e5;
+  //         border-radius:12px;
+  //         overflow:hidden;
+  //     ">
 
-        <div style="
-            background:#0f172a;
-            color:white;
-            padding:30px;
-            text-align:center;
-        ">
+  //       <div style="
+  //           background:#0f172a;
+  //           color:white;
+  //           padding:30px;
+  //           text-align:center;
+  //       ">
 
-          <h1 style="margin:0;">
-            Thank You!
-          </h1>
+  //         <h1 style="margin:0;">
+  //           Thank You!
+  //         </h1>
 
-          <p style="margin-top:10px;">
-            Your message has been received successfully.
-          </p>
+  //         <p style="margin-top:10px;">
+  //           Your message has been received successfully.
+  //         </p>
 
-        </div>
+  //       </div>
 
-        <div style="padding:30px;">
+  //       <div style="padding:30px;">
 
-          <h2>Hello ${name},</h2>
+  //         <h2>Hello ${name},</h2>
 
-          <p>
-            Thank you for contacting me through my portfolio website.
-          </p>
+  //         <p>
+  //           Thank you for contacting me through my portfolio website.
+  //         </p>
 
-          <p>
-            I have successfully received your message regarding:
-          </p>
+  //         <p>
+  //           I have successfully received your message regarding:
+  //         </p>
 
-          <blockquote style="
-              background:#f5f5f5;
-              padding:15px;
-              border-left:5px solid #06b6d4;
-          ">
-            <strong>${subject}</strong>
-          </blockquote>
+  //         <blockquote style="
+  //             background:#f5f5f5;
+  //             padding:15px;
+  //             border-left:5px solid #06b6d4;
+  //         ">
+  //           <strong>${subject}</strong>
+  //         </blockquote>
 
-          <p>
-            I appreciate your interest and will review your message shortly.
-          </p>
+  //         <p>
+  //           I appreciate your interest and will review your message shortly.
+  //         </p>
 
-          <p>
-            I usually respond within
-            <strong>24–48 hours.</strong>
-          </p>
+  //         <p>
+  //           I usually respond within
+  //           <strong>24–48 hours.</strong>
+  //         </p>
 
-          <hr>
+  //         <hr>
 
-          <p>
-            Best Regards,
-          </p>
+  //         <p>
+  //           Best Regards,
+  //         </p>
 
-          <h3 style="margin-bottom:5px;">
-            Prabhat Kumar Arya
-          </h3>
+  //         <h3 style="margin-bottom:5px;">
+  //           Prabhat Kumar Arya
+  //         </h3>
 
-          <p>
-            Full Stack Developer
-          </p>
+  //         <p>
+  //           Full Stack Developer
+  //         </p>
 
-        </div>
+  //       </div>
 
-        <div style="
-            background:#0f172a;
-            color:#cbd5e1;
-            text-align:center;
-            padding:18px;
-        ">
+  //       <div style="
+  //           background:#0f172a;
+  //           color:#cbd5e1;
+  //           text-align:center;
+  //           padding:18px;
+  //       ">
 
-          © ${new Date().getFullYear()} Prabhat Kumar Arya
+  //         © ${new Date().getFullYear()} Prabhat Kumar Arya
 
-        </div>
+  //       </div>
 
-        </div>
-        <hr>
-        <p>
-        You can also connect with me:
-        </p>
+  //       </div>
+  //       <hr>
+  //       <p>
+  //       You can also connect with me:
+  //       </p>
 
-        <div style="margin-top:25px;">
+  //       <div style="margin-top:25px;">
 
-        <a
-        href="https://github.com/PrabhatKumarArya"
-        style="
-        background:#24292f;
-        color:white;
-        padding:12px 20px;
-        text-decoration:none;
-        border-radius:8px;
-        margin-right:10px;
-        display:inline-block;
-        ">
-        GitHub
-        </a>
+  //       <a
+  //       href="https://github.com/PrabhatKumarArya"
+  //       style="
+  //       background:#24292f;
+  //       color:white;
+  //       padding:12px 20px;
+  //       text-decoration:none;
+  //       border-radius:8px;
+  //       margin-right:10px;
+  //       display:inline-block;
+  //       ">
+  //       GitHub
+  //       </a>
 
-        <a
-        href="https://linkedin.com/in/prabhat-kumar-arya-883a79324"
-        style="
-        background:#0A66C2;
-        color:white;
-        padding:12px 20px;
-        text-decoration:none;
-        border-radius:8px;
-        margin-right:10px;
-        display:inline-block;
-        ">
-        LinkedIn
-        </a>
+  //       <a
+  //       href="https://linkedin.com/in/prabhat-kumar-arya-883a79324"
+  //       style="
+  //       background:#0A66C2;
+  //       color:white;
+  //       padding:12px 20px;
+  //       text-decoration:none;
+  //       border-radius:8px;
+  //       margin-right:10px;
+  //       display:inline-block;
+  //       ">
+  //       LinkedIn
+  //       </a>
 
-        <a
-        href="https://my-portfolio-website-5-1.vercel.app/"
-        style="
-        background:#06b6d4;
-        color:white;
-        padding:12px 20px;
-        text-decoration:none;
-        border-radius:8px;
-        display:inline-block;
-        ">
-        Portfolio
-        </a>
+  //       <a
+  //       href="https://my-portfolio-website-5-1.vercel.app/"
+  //       style="
+  //       background:#06b6d4;
+  //       color:white;
+  //       padding:12px 20px;
+  //       text-decoration:none;
+  //       border-radius:8px;
+  //       display:inline-block;
+  //       ">
+  //       Portfolio
+  //       </a>
 
-      </div>
-    `,
-      attachments: [
-      {
-        filename: "My_Resume.pdf",
-        path: "../frontend/public/resume/My_Resume.pdf",
-      },
-    ],
-  });
+  //     </div>
+  //   `,
+  //     attachments: [
+  //     {
+  //       filename: "My_Resume.pdf",
+  //       path: path.join(__dirname, "../public/My_Resume.pdf"),
+  //     },
+  //   ],
+  // });
 
   res.status(201).json({
     success: true,

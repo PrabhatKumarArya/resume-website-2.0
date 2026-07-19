@@ -20,6 +20,7 @@ import {
   SiCplusplus,
   SiFirebase,
   SiCloudinary,
+  SiSqlite,
 } from "react-icons/si";
 
 export const skillsData = [
